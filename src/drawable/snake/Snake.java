@@ -24,8 +24,6 @@ public class Snake implements Drawable {
     private HashMap<Directions, Directions> opposite;
     HashMap<Directions, Integer> dirMap;
 
-    private ArrayList<Color> prideColors = new ArrayList<>();
-
     private boolean alive;
 
     public Snake(int x, int y, int size, Color color) {
@@ -37,14 +35,6 @@ public class Snake implements Drawable {
         length = 1;
 
         init();
-        prideColors.add(new Color(255, 0 ,0));
-        prideColors.add(new Color(255, 127 ,0));
-        prideColors.add(new Color(255, 255 ,0));
-        prideColors.add(new Color(0, 255 ,0));
-        prideColors.add(new Color(0, 0 ,255));
-        prideColors.add(new Color(75, 0 ,130));
-        prideColors.add(new Color(148, 0 ,211));
-
     }
 
     private void init() {
@@ -81,7 +71,6 @@ public class Snake implements Drawable {
         g.setColor(color);
 
         for (int i = 0; i < length; i++) {
-            g.setColor(prideColors.get(i % prideColors.size()));
             g.fillRect(xpos[i], ypos[i], size, size);
         }
     }
