@@ -2,77 +2,49 @@ package drawable.snake;
 
 import drawable.Drawable;
 import drawable.food.Food;
+import drawable.model.SnakeModel;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import static contants.Constants.SCREEN_HEIGHT;
-import static contants.Constants.SCREEN_WIDTH;
+import static contants.Constants.*;
 import static drawable.snake.Directions.*;
 
 public class Snake implements Drawable {
 
-    private int size;
     public int length;
-    private Color color;
     private int[] xpos = new int[SCREEN_WIDTH];
     private int[] ypos = new int[SCREEN_HEIGHT];
+    private SnakeModel model;
     private Directions direction;
-    private HashMap<Integer, Directions> keyMap;
-    private HashMap<Directions, Directions> opposite;
-    HashMap<Directions, Integer> dirMap;
-
     private boolean alive;
 
-    public Snake(int x, int y, int size, Color color) {
-        this.size = size;
-        this.color = color;
+    public Snake(int x, int y, int startLength, SnakeModel model) {
+        this.model = model;
 
         xpos[0] = x;
         ypos[0] = y;
         length = 1;
 
-        init();
+        init(startLength);
     }
 
-    private void init() {
-        for (int i = 1; i < 0; i++) {
-            xpos[i] = xpos[i-1] + 30;
-            ypos[i] = ypos[i-1] + 30;
+    private void init(int startLength) {
+
+        for (int i = 1; i < startLength; i++) {
+            xpos[i] = xpos[i - 1] + 30;
+            ypos[i] = ypos[i - 1] + 30;
             length++;
         }
 
         alive = true;
         direction = UP;
-
-        keyMap = new HashMap<>();
-        keyMap.put(KeyEvent.VK_LEFT, LEFT);
-        keyMap.put(KeyEvent.VK_RIGHT, RIGHT);
-        keyMap.put(KeyEvent.VK_UP, UP);
-        keyMap.put(KeyEvent.VK_DOWN, DOWN);
-
-        opposite = new HashMap<>();
-        opposite.put(LEFT, RIGHT);
-        opposite.put(RIGHT, LEFT);
-        opposite.put(UP, DOWN);
-        opposite.put(DOWN, UP);
-
-        dirMap = new HashMap<>();
-        dirMap.put(UP, - 30);
-        dirMap.put(DOWN, 30);
-        dirMap.put(LEFT, -30);
-        dirMap.put(RIGHT, 30);
     }
 
 
     public void draw(Graphics g) {
-        g.setColor(color);
-
-        for (int i = 0; i < length; i++) {
-            g.fillRect(xpos[i], ypos[i], size, size);
-        }
+        model.setXpos(xpos);
+        model.setYpos(ypos);
+        model.draw(g, length);
     }
 
     public void keyPressed(int keyCode) {
@@ -80,7 +52,6 @@ public class Snake implements Drawable {
             return;
 
         Directions cur = direction;
-
 
         direction = keyMap.get(keyCode);
 
@@ -104,14 +75,15 @@ public class Snake implements Drawable {
     private void move() {
 
         for (int z = length; z > 0; z--) {
-            xpos[z] = xpos[(z - 1)];
-            ypos[z] = ypos[(z - 1)];
+            xpos[z] = xpos[z-1];
+            ypos[z] = ypos[z-1];
         }
 
+        //FIXA
         if (direction == UP || direction == DOWN)
-            ypos[0] = ypos[0] + dirMap.get(direction);
+            ypos[0] += dirMap.get(direction);
         if (direction == RIGHT || direction == LEFT)
-            xpos[0] = xpos[0] + dirMap.get(direction);
+            xpos[0] += dirMap.get(direction);
     }
 
     private void checkBounds() {

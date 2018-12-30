@@ -2,6 +2,7 @@ package main;
 
 import drawable.Drawable;
 import drawable.food.Food;
+import drawable.model.SnakeModel;
 import drawable.snake.Snake;
 
 import javax.swing.*;
@@ -9,7 +10,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import static contants.Constants.*;
 
@@ -25,8 +25,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        snake = new Snake(900 / 2, 900 / 2, 30, Color.red);
-        food = new Food(0, 0, 30, Color.green);
+
+        snake = new Snake(900 / 2, 900 / 2, 3,
+                new SnakeModel(new int[900], new int[900], 30, new Color(161, 63, 80)));
+
+        food = new Food(0, 0, 20, new Color(167, 231, 153));
 
         gameObjects = new ArrayList<>();
         gameObjects.add(snake);
@@ -83,12 +86,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void drawBg(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(new Color(118, 118, 121));
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
     private void drawGrid(Graphics g) {
-        g.setColor(new Color(225, 226, 231));
+        g.setColor(new Color(127, 128, 131));
 
         for (int i = 0; i < ROWS; i++) {
             g.drawLine(0, i * ROWS, SCREEN_WIDTH, i * ROWS);

@@ -1,7 +1,6 @@
 package drawable.food;
 
 import drawable.Drawable;
-
 import java.awt.*;
 import java.util.Random;
 
@@ -9,11 +8,13 @@ public class Food implements Drawable {
 
     public int x, y, width;
     private boolean alive;
+    private Color color;
 
-    public Food(int x, int y, int width, Color c) {
+    public Food(int x, int y, int width, Color color) {
         this.x = x;
         this.y = y;
         this.width = width;
+        this.color = color;
         alive = false;
     }
 
@@ -25,6 +26,7 @@ public class Food implements Drawable {
 
     public void despawn() {
         alive = false;
+        x = -30;
     }
 
     public void spawn() {
@@ -36,10 +38,7 @@ public class Food implements Drawable {
     }
 
     public void draw(Graphics g) {
-        if (alive) {
-            g.setColor(Color.green);
-            g.fillRect(x, y, width, width);
-        }
-
+            g.setColor(color);
+            g.fillOval(x + width / 4, y + width / 4, width, width);
     }
 }

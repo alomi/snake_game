@@ -1,13 +1,11 @@
 package main;
 
-import java.awt.BorderLayout;
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 public class Game extends JFrame {
 
-    private static final long serialVersionUID = 1L;
-
-    public Game() {
+    private Game() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("B4NG");
         setResizable(false);
@@ -17,7 +15,7 @@ public class Game extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void run(){
+    private void run() {
         setVisible(true);
     }
 
