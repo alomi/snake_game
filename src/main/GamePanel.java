@@ -1,23 +1,27 @@
 package main;
 
-import drawable.Drawable;
-import drawable.food.Food;
-import drawable.model.SnakeModel;
-import drawable.snake.Snake;
+import components.food_components.FoodRenderComponent;
+import components.player_components.PlayerInputComponent;
+import components.player_components.PlayerKeyboardComponent;
+import components.player_components.PlayerPhysicsComponent;
+import components.player_components.PlayerRenderComponent;
+import components.component_templates.StateSpaceComponent;
+import gameobjects.Apple;
+import contants.Direction;
+import gameobjects.Snake;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 import static contants.Constants.*;
 
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
+    //private Snake snake;
     private Snake snake;
-    private Food food;
-    private ArrayList<Drawable> gameObjects;
+    private Apple apple;
     private boolean moved = false;
 
     public GamePanel() {
@@ -25,15 +29,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
+        snake = new Snake(new StateSpaceComponent(900 / 2, 900 / 2, 30, Direction.UP),
+                new PlayerInputComponent(), new PlayerPhysicsComponent(),
+                new PlayerRenderComponent(new Color(161, 63, 80)),
+                new PlayerKeyboardComponent());
 
-        snake = new Snake(900 / 2, 900 / 2, 3,
-                new SnakeModel(new int[900], new int[900], 30, new Color(161, 63, 80)));
-
-        food = new Food(0, 0, 20, new Color(167, 231, 153));
-
-        gameObjects = new ArrayList<>();
-        gameObjects.add(snake);
-        gameObjects.add(food);
+        apple = new Apple(new StateSpaceComponent(0, 0, 20, Direction.NONE),
+                new FoodRenderComponent(new Color(167, 231, 153)));
 
         Thread thread = new Thread(this);
         thread.start();
@@ -68,19 +70,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void update() {
-        food.update();
-
-        if (snake.isAlive())
-            snake.update(food);
+        apple.update(this);
+        snake.update(this);
     }
 
     public void paintComponent(Graphics g) {
         drawBg(g);
         drawGrid(g);
 
-        for (Drawable d : gameObjects) {
-            d.draw(g);
-        }
+        apple.draw(g);
+        snake.draw(g);
 
         moved = false;
     }
@@ -116,5 +115,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+    }
+
+    public void handleCollision(StateSpaceComponent state) {
+        if (apple.stateSpace.xpos[0] == state.xpos[0] && apple.stateSpace.ypos[0] == state.ypos[0]) {
+            state.grow();
+            apple.despawn();
+        }
+
+        if (state.xpos[0] < 0)
+            state.xpos[0] = SCREEN_WIDTH;
+
+        else if (state.xpos[0] >= SCREEN_WIDTH)
+            state.xpos[0] = 0;
+
+        if (state.ypos[0] < 0)
+            state.ypos[0] = SCREEN_HEIGHT;
+
+        else if (state.ypos[0] >= SCREEN_HEIGHT)
+            state.ypos[0] = 0;
     }
 }

@@ -1,6 +1,6 @@
-package drawable.snake;
+package contants;
 
-public enum Directions {
+public enum Direction {
     LEFT,
     RIGHT,
     UP,

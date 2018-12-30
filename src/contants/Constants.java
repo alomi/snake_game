@@ -1,18 +1,16 @@
 package contants;
 
-import drawable.snake.Directions;
-
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-import static drawable.snake.Directions.*;
+import static contants.Direction.*;
 
 public class Constants {
     public static final int SCREEN_WIDTH = 900, SCREEN_HEIGHT = 900;
     public static final int ROWS = 30, COLS = 30;
-    public static HashMap<Integer, Directions> keyMap;
-    public static HashMap<Directions, Directions> opposite;
-    public static HashMap<Directions, Integer> dirMap;
+    public static HashMap<Integer, Direction> keyMap;
+    public static HashMap<Direction, Direction> opposite;
+    public static HashMap<Direction, Integer> dirMap;
 
     static {
         keyMap = new HashMap<>();
