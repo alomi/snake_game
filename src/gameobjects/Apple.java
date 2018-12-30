@@ -11,9 +11,10 @@ public class Apple extends GameObject {
 
     FoodRenderComponent render;
 
-    public Apple(StateSpaceComponent stateSpace, FoodRenderComponent render) {
-        super(stateSpace);
+    public Apple(StateSpaceComponent stateSpace, FoodRenderComponent render, int length) {
+        super(stateSpace, length);
         this.render = render;
+        spawn();
     }
 
     public void update(GamePanel world){
@@ -23,14 +24,14 @@ public class Apple extends GameObject {
 
     public void despawn() {
         alive = false;
-        stateSpace.xpos[0] =- stateSpace.size * 10;
+        stateSpace.setX(-stateSpace.getSize() * 10);
     }
 
     private void spawn() {
         Random random = new Random();
 
-        stateSpace.xpos[0] = random.nextInt(30 - 1) * 30;
-        stateSpace.ypos[0] = random.nextInt(30 - 1) * 30;
+        stateSpace.setX(random.nextInt(30 - 1) * 30);
+        stateSpace.setY(random.nextInt(30 - 1) * 30);
 
         alive = true;
     }

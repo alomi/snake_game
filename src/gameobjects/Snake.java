@@ -1,11 +1,10 @@
 package gameobjects;
 
+import components.component_templates.StateSpaceComponent;
 import components.player_components.PlayerInputComponent;
 import components.player_components.PlayerKeyboardComponent;
 import components.player_components.PlayerPhysicsComponent;
 import components.player_components.PlayerRenderComponent;
-import components.component_templates.StateSpaceComponent;
-
 import main.GamePanel;
 
 import java.awt.*;
@@ -17,13 +16,16 @@ public class Snake extends GameObject {
     private PlayerRenderComponent render;
     private PlayerKeyboardComponent keyboard;
 
+    private boolean moved;
+
     public Snake(StateSpaceComponent stateSpace,
                  PlayerInputComponent input,
                  PlayerPhysicsComponent physics,
                  PlayerRenderComponent render,
-                 PlayerKeyboardComponent keyboard) {
+                 PlayerKeyboardComponent keyboard,
+                 int length) {
 
-        super(stateSpace);
+        super(stateSpace, length);
 
         this.input = input;
         this.physics = physics;
@@ -40,10 +42,13 @@ public class Snake extends GameObject {
 
     public void draw(Graphics g) {
         render.draw(stateSpace, g);
+        moved = false;
     }
 
     @Override
     public void keyPressed(int k) {
-        keyboard.keyPressed(this, k);
+        if (!moved)
+            keyboard.keyPressed(this, k);
+        moved = true;
     }
 }

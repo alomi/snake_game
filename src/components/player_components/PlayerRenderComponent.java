@@ -15,14 +15,16 @@ public class PlayerRenderComponent extends RenderComponent {
     @Override
     public void draw(StateSpaceComponent state, Graphics g) {
 
+        int[] xpos = state.getXpos();
+        int[] ypos = state.getYpos();
 
-        for (int i = 0; i < state.length; i++) {
+        for (int i = 0; i < state.getLength(); i++) {
             g.setColor(color);
 
             if (i == 0)
                 g.setColor(color.brighter());
 
-            g.fillRect(state.xpos[i], state.ypos[i], state.size, state.size);
+            g.fillRect(xpos[i], ypos[i], state.getSize(), state.getSize());
         }
     }
 }

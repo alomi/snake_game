@@ -1,87 +1,113 @@
 package main;
 
+import components.component_templates.StateSpaceComponent;
 import components.food_components.FoodRenderComponent;
 import components.player_components.PlayerInputComponent;
 import components.player_components.PlayerKeyboardComponent;
 import components.player_components.PlayerPhysicsComponent;
 import components.player_components.PlayerRenderComponent;
-import components.component_templates.StateSpaceComponent;
-import gameobjects.Apple;
 import contants.Direction;
+import gameobjects.Apple;
+import gameobjects.GameObject;
 import gameobjects.Snake;
+import util.KeyHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static contants.Constants.*;
+import static contants.Direction.*;
 
-
-public class GamePanel extends JPanel implements Runnable, KeyListener {
-    //private Snake snake;
+public class GamePanel extends JPanel implements Runnable{
     private Snake snake;
     private Apple apple;
-    private boolean moved = false;
+    private Snake s2;
+    private ArrayList<GameObject> gameObjects;
 
-    public GamePanel() {
+    GamePanel() {
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setFocusable(true);
-        addKeyListener(this);
+        addKeyListener(new KeyHandler(this));
 
-        snake = new Snake(new StateSpaceComponent(900 / 2, 900 / 2, 30, Direction.UP),
-                new PlayerInputComponent(), new PlayerPhysicsComponent(),
-                new PlayerRenderComponent(new Color(161, 63, 80)),
-                new PlayerKeyboardComponent());
-
-        apple = new Apple(new StateSpaceComponent(0, 0, 20, Direction.NONE),
-                new FoodRenderComponent(new Color(167, 231, 153)));
+        gameObjects = new ArrayList<>();
+        createObjects();
 
         Thread thread = new Thread(this);
         thread.start();
-
     }
 
-    @Override
     public void run() {
-        int FPS = 10;
-        long start, elapsed, wait, targetTime;
-        targetTime = 1000 / FPS;
+            int FPS = 10;
+            long start, elapsed, wait, targetTime;
+            targetTime = 1000 / FPS;
 
 
-        while (true) {
-            update();
-            repaint();
+            while (true) {
+                update();
+                repaint();
 
-            start = System.nanoTime();
-            elapsed = System.nanoTime() - start;
-            wait = targetTime - elapsed / 1000000;
+                start = System.nanoTime();
+                elapsed = System.nanoTime() - start;
+                wait = targetTime - elapsed / 1000000;
 
-            if (wait <= 0) {
-                wait = 5;
+                if (wait <= 0) {
+                    wait = 5;
+                }
+
+                try {
+                    Thread.sleep(wait);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+    }
 
-            try {
-                Thread.sleep(wait);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    private void createObjects() {
+        snake = new Snake(new StateSpaceComponent(900 / 2, 900 / 2, 30, Direction.UP),
+                new PlayerInputComponent(), new PlayerPhysicsComponent(),
+                new PlayerRenderComponent(new Color(161, 63, 80)),
+                new PlayerKeyboardComponent(new HashMap<>() {{
+                    put(KeyEvent.VK_LEFT, LEFT);
+                    put(KeyEvent.VK_RIGHT, RIGHT);
+                    put(KeyEvent.VK_UP, UP);
+                    put(KeyEvent.VK_DOWN, DOWN);
+                }}), 3);
+
+        s2 = new Snake(new StateSpaceComponent(900 / 3, 900 / 3, 30, Direction.UP),
+                new PlayerInputComponent(), new PlayerPhysicsComponent(),
+                new PlayerRenderComponent(new Color(38, 66, 161)),
+                new PlayerKeyboardComponent(new HashMap<>() {{
+                    put(KeyEvent.VK_A, LEFT);
+                    put(KeyEvent.VK_D, RIGHT);
+                    put(KeyEvent.VK_W, UP);
+                    put(KeyEvent.VK_S, DOWN);
+                }}),3);
+
+        apple = new Apple(new StateSpaceComponent(0, 0, 20, Direction.NONE),
+                new FoodRenderComponent(new Color(167, 231, 153)), 1);
+
+        gameObjects.add(snake);
+        //gameObjects.add(s2);
+
+        gameObjects.add(apple);
     }
 
     public void update() {
-        apple.update(this);
-        snake.update(this);
+        for (GameObject obj : gameObjects) {
+            obj.update(this);
+        }
     }
 
     public void paintComponent(Graphics g) {
         drawBg(g);
         drawGrid(g);
 
-        apple.draw(g);
-        snake.draw(g);
-
-        moved = false;
+        for (GameObject obj : gameObjects) {
+            obj.draw(g);
+        }
     }
 
     private void drawBg(Graphics g) {
@@ -98,41 +124,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (!moved)
-            snake.keyPressed(e.getKeyCode());
+    public void keyPressed(int k) {
+        snake.keyPressed(k);
+        //s2.keyPressed(k);
 
-        moved = true;
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-        //drawable.snake.keyReleased(e.getKeyCode());
-    }
-
-
-    @Override
-    public void keyTyped(KeyEvent e) {
     }
 
     public void handleCollision(StateSpaceComponent state) {
-        if (apple.stateSpace.xpos[0] == state.xpos[0] && apple.stateSpace.ypos[0] == state.ypos[0]) {
+        if (apple.equalPosition(state)) {
             state.grow();
             apple.despawn();
         }
 
-        if (state.xpos[0] < 0)
-            state.xpos[0] = SCREEN_WIDTH;
+        if (state.getX() < 0)
+            state.setX(SCREEN_WIDTH);
 
-        else if (state.xpos[0] >= SCREEN_WIDTH)
-            state.xpos[0] = 0;
+        else if (state.getX() >= SCREEN_WIDTH)
+            state.setX(0);
 
-        if (state.ypos[0] < 0)
-            state.ypos[0] = SCREEN_HEIGHT;
+        if (state.getY() < 0)
+            state.setY(SCREEN_HEIGHT);
 
-        else if (state.ypos[0] >= SCREEN_HEIGHT)
-            state.ypos[0] = 0;
+        else if (state.getY() >= SCREEN_HEIGHT)
+            state.setY(0);
     }
 }

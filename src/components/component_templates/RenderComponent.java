@@ -4,9 +4,9 @@ import java.awt.*;
 
 public abstract class RenderComponent {
 
-    public Color color;
+    protected Color color;
 
-    public RenderComponent(Color color){
+    public RenderComponent(Color color) {
         this.color = color;
     }
 

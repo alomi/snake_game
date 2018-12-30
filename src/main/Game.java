@@ -7,7 +7,7 @@ public class Game extends JFrame {
 
     private Game() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("B4NG");
+        setTitle("SN4KE");
         setResizable(false);
         setLayout(new BorderLayout());
         add(new GamePanel(), BorderLayout.CENTER);

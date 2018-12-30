@@ -14,8 +14,9 @@ public class FoodRenderComponent extends RenderComponent {
     @Override
     public void draw(StateSpaceComponent state, Graphics g) {
         g.setColor(color);
-        g.fillOval(state.xpos[0] + state.size / 4,
-                state.ypos[0] + state.size / 4,
-                state.size, state.size);
+
+        g.fillOval(state.getX() + state.getSize() / 4,
+                state.getY() + state.getSize() / 4,
+                state.getSize(), state.getSize());
     }
 }

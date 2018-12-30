@@ -10,14 +10,13 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     @Override
     public void update(GameObject object, GamePanel world) {
 
-        StateSpaceComponent state = object.stateSpace;
+        StateSpaceComponent state = object.getStateSpace();
 
         world.handleCollision(state);
 
-        for (int i = 1; i < state.length; i++){
-            if (state.xpos[0] == state.xpos[i] && state.ypos[0] == state.ypos[i]){
-                object.alive = false;
-            }
+        for (int i = 1; i < state.getLength(); i++){
+            if (state.sameState(0, i))
+                object.kill();
         }
     }
 }

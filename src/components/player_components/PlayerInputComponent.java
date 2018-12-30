@@ -9,29 +9,13 @@ public class PlayerInputComponent extends InputComponent {
     @Override
     public void update(GameObject object) {
 
-        StateSpaceComponent state = object.stateSpace;
+        StateSpaceComponent state = object.getStateSpace();
 
-        for (int z = state.length; z > 0; z--) {
-            state.xpos[z] = state.xpos[z-1];
-            state.ypos[z] = state.ypos[z-1];
+        for (int z = state.getLength(); z > 0; z--) {
+            state.setXpos(z, z-1);
+            state.setYpos(z, z-1);
         }
 
-        switch (state.direction){
-            case RIGHT:
-                    state.xpos[0] += state.size;
-                break;
-
-            case LEFT:
-                    state.xpos[0] -= state.size;
-                break;
-
-            case DOWN:
-                    state.ypos[0] += state.size;
-                break;
-
-            case UP:
-                    state.ypos[0] -= state.size;
-                break;
-        }
+        state.move();
     }
 }
