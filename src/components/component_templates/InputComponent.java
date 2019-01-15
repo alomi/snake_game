@@ -1,7 +1,7 @@
 package components.component_templates;
 
-import gameobjects.GameObject;
+import entities.Entity;
 
-public abstract class InputComponent {
-    public abstract void update(GameObject object);
+public abstract class InputComponent extends Component{
+    public abstract void update(Entity object);
 }

@@ -1,9 +1,9 @@
 package components.component_templates;
 
-import gameobjects.GameObject;
+import entities.Entity;
 import main.GamePanel;
 
-public abstract class PhysicsComponent {
+public abstract class PhysicsComponent extends Component {
 
-    public abstract void update(GameObject object, GamePanel world);
+    public abstract void update(Entity object, GamePanel world);
 }

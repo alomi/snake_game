@@ -1,11 +1,11 @@
 package components.component_templates;
 
 import contants.Direction;
-import gameobjects.GameObject;
+import entities.Entity;
 
 import java.util.HashMap;
 
-public abstract class KeyboardComponent {
+public abstract class KeyboardComponent extends Component {
 
     protected HashMap<Integer, Direction> keyMap;
 
@@ -13,8 +13,8 @@ public abstract class KeyboardComponent {
         this.keyMap = keyMap;
     }
 
-    public abstract void keyPressed(GameObject object, int k);
+    public abstract void keyPressed(Entity object, int k);
 
-    public void keyReleased(GameObject object, int k) {
+    public void keyReleased(Entity object, int k) {
     }
 }

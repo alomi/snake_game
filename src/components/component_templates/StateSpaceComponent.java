@@ -4,7 +4,7 @@ import contants.Direction;
 
 import static contants.Constants.SCREEN_WIDTH;
 
-public class StateSpaceComponent {
+public class StateSpaceComponent extends Component {
 
     private int[] xpos;
     private int[] ypos;
@@ -31,23 +31,23 @@ public class StateSpaceComponent {
         length++;
     }
 
-    public int[] getXpos(){
+    public int[] getXpos() {
         return xpos;
     }
 
-    public int[] getYpos(){
+    public int[] getYpos() {
         return ypos;
     }
 
-    public int getX(){
+    public int getX() {
         return xpos[0];
     }
 
-    public int getY(){
+    public int getY() {
         return ypos[0];
     }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
@@ -55,19 +55,19 @@ public class StateSpaceComponent {
         return direction;
     }
 
-    public int getLength(){
+    public int getLength() {
         return length;
     }
 
-    public void setX(int x){
+    public void setX(int x) {
         xpos[0] = x;
     }
 
-    public void setY(int y){
+    public void setY(int y) {
         ypos[0] = y;
     }
 
-    public void setXpos(int at, int to){
+    public void setXpos(int at, int to) {
         xpos[at] = xpos[to];
     }
 
@@ -103,15 +103,15 @@ public class StateSpaceComponent {
         return xpos[a] == xpos[b] && ypos[a] == ypos[b];
     }
 
-    public boolean samePosition(StateSpaceComponent other){
+    public boolean samePosition(StateSpaceComponent other) {
         return xpos[0] == other.getX() && ypos[0] == other.getY();
     }
 
-    public boolean sameDirection(StateSpaceComponent other){
+    public boolean sameDirection(StateSpaceComponent other) {
         return direction == other.direction;
     }
 
-    public boolean equals(StateSpaceComponent other){
+    public boolean equals(StateSpaceComponent other) {
         return sameDirection(other) && samePosition(other);
     }
 

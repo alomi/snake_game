@@ -3,9 +3,8 @@ package components.player_components;
 import components.component_templates.KeyboardComponent;
 import components.component_templates.StateSpaceComponent;
 import contants.Direction;
-import gameobjects.GameObject;
+import entities.Entity;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import static contants.Constants.opposite;
@@ -18,9 +17,10 @@ public class PlayerKeyboardComponent extends KeyboardComponent {
     }
 
     @Override
-    public void keyPressed(GameObject object, int k) {
+    public void keyPressed(Entity object, int k) {
 
         StateSpaceComponent state = object.getStateSpace();
+
         if (!keyMap.containsKey(k))
             return;
 

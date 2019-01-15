@@ -2,7 +2,7 @@ package components.component_templates;
 
 import java.awt.*;
 
-public abstract class RenderComponent {
+public abstract class RenderComponent extends Component {
 
     protected Color color;
 

@@ -1,5 +1,6 @@
-package gameobjects;
+package entities;
 
+import components.PointsComponent;
 import components.component_templates.StateSpaceComponent;
 import components.player_components.PlayerInputComponent;
 import components.player_components.PlayerKeyboardComponent;
@@ -9,12 +10,13 @@ import main.GamePanel;
 
 import java.awt.*;
 
-public class Snake extends GameObject {
+public class Snake extends Entity {
 
     private PlayerInputComponent input;
     private PlayerPhysicsComponent physics;
     private PlayerRenderComponent render;
     private PlayerKeyboardComponent keyboard;
+    private PointsComponent pointsComponent;
 
     private boolean moved;
 
@@ -23,6 +25,7 @@ public class Snake extends GameObject {
                  PlayerPhysicsComponent physics,
                  PlayerRenderComponent render,
                  PlayerKeyboardComponent keyboard,
+                 PointsComponent pointsComponent,
                  int length) {
 
         super(stateSpace, length);
@@ -31,6 +34,7 @@ public class Snake extends GameObject {
         this.physics = physics;
         this.render = render;
         this.keyboard = keyboard;
+        this.pointsComponent = pointsComponent;
     }
 
     public void update(GamePanel world) {
@@ -41,7 +45,9 @@ public class Snake extends GameObject {
     }
 
     public void draw(Graphics g) {
+        pointsComponent.draw(this, g);
         render.draw(stateSpace, g);
+
         moved = false;
     }
 

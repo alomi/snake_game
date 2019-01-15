@@ -1,17 +1,16 @@
-package gameobjects;
+package entities;
 
 import components.component_templates.StateSpaceComponent;
-import main.Game;
 import main.GamePanel;
 
 import java.awt.*;
 
-public abstract class GameObject {
+public abstract class Entity {
 
     StateSpaceComponent stateSpace;
     boolean alive;
 
-    public GameObject(StateSpaceComponent stateSpace, int startLength) {
+    public Entity(StateSpaceComponent stateSpace, int startLength) {
         this.stateSpace = stateSpace;
 
         stateSpace.setLength(startLength);
@@ -34,6 +33,10 @@ public abstract class GameObject {
         return stateSpace.getY();
     }
 
+    public int getLength() {
+        return stateSpace.getLength();
+    }
+
     public boolean equalPosition(StateSpaceComponent other) {
         return stateSpace.samePosition(other);
     }
@@ -46,7 +49,7 @@ public abstract class GameObject {
         return isAlive();
     }
 
-    public void kill(){
+    public void kill() {
         alive = false;
     }
 }

@@ -7,9 +7,9 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    GamePanel panel;
+    private GamePanel panel;
 
-    public KeyHandler(GamePanel panel){
+    public KeyHandler(GamePanel panel) {
         this.panel = panel;
     }
 
@@ -19,8 +19,10 @@ public class KeyHandler implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+    }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+    }
 }

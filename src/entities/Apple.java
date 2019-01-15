@@ -1,23 +1,25 @@
-package gameobjects;
+package entities;
 
-import components.food_components.FoodRenderComponent;
 import components.component_templates.StateSpaceComponent;
+import components.food_components.FoodRenderComponent;
 import main.GamePanel;
 
 import java.awt.*;
 import java.util.Random;
 
-public class Apple extends GameObject {
+import static contants.Constants.COLS;
+import static contants.Constants.ROWS;
+
+public class Apple extends Entity {
 
     FoodRenderComponent render;
 
     public Apple(StateSpaceComponent stateSpace, FoodRenderComponent render, int length) {
         super(stateSpace, length);
         this.render = render;
-        spawn();
     }
 
-    public void update(GamePanel world){
+    public void update(GamePanel world) {
         if (!alive)
             spawn();
     }
@@ -30,8 +32,8 @@ public class Apple extends GameObject {
     private void spawn() {
         Random random = new Random();
 
-        stateSpace.setX(random.nextInt(30 - 1) * 30);
-        stateSpace.setY(random.nextInt(30 - 1) * 30);
+        stateSpace.setX(random.nextInt(30 - 1) * ROWS);
+        stateSpace.setY(random.nextInt(30 - 1) * COLS);
 
         alive = true;
     }
